@@ -1,0 +1,188 @@
+<!-- templates/index.html -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Church PPT Builder</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      max-width: 800px; 
+      margin: 30px auto; 
+      padding: 20px;
+    }
+    label { 
+      display: block; 
+      margin: 10px 0 4px; 
+      font-weight: bold;
+    }
+    input[type="file"], input[type="text"] { 
+      width: 100%; 
+      padding: 8px; 
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .hymn-section {
+      background-color: #f5f5f5;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 5px;
+      border-left: 4px solid #007bff;
+    }
+    .hymn-input {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 8px 0;
+    }
+    .hymn-input input {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    .hymn-input label {
+      margin: 0;
+      min-width: 120px;
+      font-weight: normal;
+    }
+    button { 
+      background-color: #007bff;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .help-text {
+      font-size: 12px;
+      color: #666;
+      margin-top: 2px;
+    }
+    .section-title {
+      margin-top: 25px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Church PPT Builder</h1>
+  <p>Upload weekly PDF (service sheet) and your Canva PPTX template (with placeholders).</p>
+  
+  <form method="post" enctype="multipart/form-data">
+    <h3 class="section-title">Files</h3>
+    <label>Weekly PDF: 
+      <input type="file" name="pdf" accept="application/pdf" required>
+    </label>
+    
+    <label>Canva PPTX template: 
+      <input type="file" name="tpl" accept=".pptx" required>
+    </label>
+    
+    <label>Announcements DOCX (optional):
+      <input type="file" name="ann_doc" accept=".docx">
+    </label>
+
+    <h3 class="section-title">Hymn Numbers</h3>
+    <p class="help-text">Enter the hymn numbers as they appear in your hymn book (e.g., 140, 113, 156, etc.)</p>
+    
+    <div class="hymn-section">
+      <h4>Opening Hymn</h4>
+      <div class="hymn-input">
+        <label>Language:</label>
+        <select name="hymn1_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+          <option value="kannada">Kannada</option>
+          <option value="tulu">Tulu</option>
+          <option value="english">English</option>
+        </select>
+        <label>Hymn Number:</label>
+        <input type="text" name="hymn1_number" placeholder="e.g., 140">
+        <label>Verses:</label>
+        <input type="text" name="hymn1_verses" placeholder="e.g., 1,3,5,7 or leave empty for all">
+      </div>
+    </div>
+
+    <div class="hymn-section">
+      <h4>Middle Hymn</h4>
+      <div class="hymn-input">
+        <label>Language:</label>
+        <select name="hymn2_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+          <option value="kannada">Kannada</option>
+          <option value="tulu">Tulu</option>
+          <option value="english">English</option>
+        </select>
+        <label>Hymn Number:</label>
+        <input type="text" name="hymn2_number" placeholder="e.g., 113">
+        <label>Verses:</label>
+        <input type="text" name="hymn2_verses" placeholder="e.g., 1,2 or leave empty for all">
+      </div>
+    </div>
+
+    <div class="hymn-section">
+      <h4>Offertory Hymn</h4>
+      <div class="hymn-input">
+        <label>Language:</label>
+        <select name="hymn3_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+          <option value="kannada">Kannada</option>
+          <option value="tulu">Tulu</option>
+          <option value="english">English</option>
+        </select>
+        <label>Hymn Number:</label>
+        <input type="text" name="hymn3_number" placeholder="e.g., 156">
+        <label>Verses:</label>
+        <input type="text" name="hymn3_verses" placeholder="e.g., all verses or 1,2,3">
+      </div>
+    </div>
+
+    <div class="hymn-section">
+      <h4>Praise & Worship</h4>
+      <div class="hymn-input">
+        <label>Language:</label>
+        <select name="hymn4_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+          <option value="kannada">Kannada</option>
+          <option value="tulu">Tulu</option>
+          <option value="english">English</option>
+        </select>
+        <label>Hymn Number:</label>
+        <input type="text" name="hymn4_number" placeholder="e.g., 50">
+        <label>Verses:</label>
+        <input type="text" name="hymn4_verses" placeholder="e.g., 1,2">
+      </div>
+    </div>
+
+    <div class="hymn-section">
+      <h4>Closing Hymn</h4>
+      <div class="hymn-input">
+        <label>Language:</label>
+        <select name="hymn5_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+          <option value="kannada">Kannada</option>
+          <option value="tulu">Tulu</option>
+          <option value="english">English</option>
+        </select>
+        <label>Hymn Number:</label>
+        <input type="text" name="hymn5_number" placeholder="e.g., 247">
+        <label>Verses:</label>
+        <input type="text" name="hymn5_verses" placeholder="e.g., 1,2,4">
+      </div>
+    </div>
+
+    <button type="submit">Generate PPT</button>
+  </form>
+
+  <hr>
+  <h3>Placeholders recommended in your template</h3>
+  <ul>
+    <li><code>{WELCOME}</code></li>
+    <li>Hymns: <code>{HYMN1_KN_V1}</code>, <code>{HYMN1_EN_V1}</code>, <code>{HYMN1_KN_V2}</code> ... (repeat for HYMN2, HYMN3, HYMN4, HYMN5)</li>
+    <li>For Tulu hymns: <code>{HYMN1_TU_V1}</code>, <code>{HYMN1_TU_V2}</code> ... (Tulu text + English translation)</li>
+    <li>Psalm pairs: <code>{PSALM_EN_V1}</code>, <code>{PSALM_KN_V1}</code>, <code>{PSALM_EN_V2}</code> ...</li>
+    <li>Readings: <code>{OT_EN}</code>, <code>{NT_EN}</code>, <code>{GOSPEL_EN}</code></li>
+    <li>Announcements: <code>{ANNOUNCEMENTS_TEXT}</code> and <code>{ANNOUNCEMENTS_TABLE}</code></li>
+    <li><code>{BIRTHDAY_NAMES}</code>, <code>{ANNIVERSARY_NAMES}</code>, <code>{THANKYOU}</code></li>
+  </ul>
+</body>
+</html>
