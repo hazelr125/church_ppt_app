@@ -7,20 +7,18 @@ from pptx.dml.color import RGBColor
 
 import fnmatch
 FONT_STYLES = {
-    "{WELCOME}": {"font_name": "Times New Roman MT", "font_size_pt": 60},
-    "{BIRTHDAY_NAMES}": {"font_name": "Times New Roman MT", "font_size_pt": 28},
-    "{ANNOUNCEMENTS_TEXT}": {"font_name": "Times New Roman MT", "font_size_pt": 24},
+    "{ANNOUNCEMENTS_TEXT}": {"font_name": "Calbri (MS)", "font_size_pt": 24},
     "{PSALMS_DES}": {"font_name": "Times New Roman MT", "font_size_pt": 60},
     "{OT_DES}": {"font_name": "Times New Roman MT", "font_size_pt": 60},
     "{NT_DES}": {"font_name": "Times New Roman MT", "font_size_pt": 60},
     "{GOSPEL_DES}": {"font_name": "Times New Roman MT", "font_size_pt": 60},
-    "PSALM_EN_V*": {"font_name": "Times New Roman MT", "font_size_pt": 40}, 
-    "OT_EN_V*": {"font_name": "Times New Roman MT", "font_size_pt": 40}, 
-    "NT_EN_V*": {"font_name": "Times New Roman MT", "font_size_pt": 40}, 
-    "GOSPEL_EN_V*": {"font_name": "Times New Roman MT", "font_size_pt": 40}, 
+    "PSALM_EN_V*": {"font_name": "Calbri (MS)", "font_size_pt": 50}, 
+    "OT_EN_V*": {"font_name": "Calbri (MS)", "font_size_pt": 50}, 
+    "NT_EN_V*": {"font_name": "Calbri (MS)", "font_size_pt": 50}, 
+    "GOSPEL_EN_V*": {"font_name": "Calbri (MS)", "font_size_pt": 50}, 
     "HYMN*_DES": {"font_name": "Times New Roman MT", "font_size_pt": 60}, 
-    "HYMN*_KN_V*": {"font_name": "Noto Sans Kannada MT", "font_size_pt": 40},  # local (Kannada or Tulu)
-    "HYMN*_EN_V*": {"font_name": "Times New Roman MT", "font_size_pt": 40},             # English
+    "HYMN*_KN_V*": {"font_name": "Noto Sans Kannada MT", "font_size_pt": 55}, 
+    "HYMN*_EN_V*": {"font_name": "Calbri (MS)", "font_size_pt": 55},           
 }
 
 def get_font_style_for_placeholder(ph):

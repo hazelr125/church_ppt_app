@@ -14,11 +14,18 @@ def fetch_bible_passage(passage: str, lang: str = 'en'):
         return []
     
     try:
+        passage_pattern = re.search(r'([1-3]?\s?[A-Za-z\.]+\.?\s*\d+:\d+(-\d+)?)', passage)
+        if passage_pattern:
+            passage_to_parse = passage_pattern.group(1)
+        else:
+            passage_to_parse = passage.strip()
+
+
         # Parse input like "Genesis 1:1-4" or "Psalm 103:1-8"
-        match = re.match(r"([1-3]?\s?[A-Za-z\.]+)\s+(\d+)(?::(\d+)(?:-(\d+))?)?", passage.strip())
+        match = re.match(r"([1-3]?\s?[A-Za-z\.]+)\s+(\d+)(?::(\d+)(?:-(\d+))?)?", passage_to_parse)
         if not match:
             return [f"[Invalid passage format: {passage}]"]
-
+    
         book, chapter, start_verse, end_verse = match.groups()
         normalized_book = normalize_book(book)   # ✅ standardized book name
         chapter = int(chapter)
@@ -62,7 +69,9 @@ def fetch_bible_passage(passage: str, lang: str = 'en'):
 
         # --- Format result into blocks ---
         # Sort verses by verse number to ensure proper order
-        verses = verses.sort_values(by=verse_column)
+        verses = verses.copy()
+        verses['verse_num'] = verses[verse_column].apply(lambda ref: int(re.search(r":(\d+)$", ref).group(1)) if re.search(r":(\d+)$", ref) else 0)
+        verses = verses.sort_values(by='verse_num')
         
         verse_texts = []
         for _, v in verses.iterrows():
