@@ -3,3 +3,6 @@ pdfplumber
 python-pptx
 pandas
 requests
+python-docx
+openpyxl
+gunicorn
