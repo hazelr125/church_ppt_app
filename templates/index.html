@@ -67,6 +67,24 @@
       margin-bottom: 10px;
       color: #333;
     }
+    .add-hymn-btn {
+      background-color: #28a745;
+      padding: 8px 16px;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .add-hymn-btn:hover {
+      background-color: #218838;
+    }
+    .remove-hymn-btn {
+      background-color: #dc3545;
+      padding: 6px 12px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+    .remove-hymn-btn:hover {
+      background-color: #c82333;
+    }
   </style>
 </head>
 <body>
@@ -90,7 +108,8 @@
     <h3 class="section-title">Hymn Numbers</h3>
     <p class="help-text">Enter the hymn numbers as they appear in your hymn book (e.g., 140, 113, 156, etc.)</p>
     
-    <div class="hymn-section">
+    <div id="hymns-container">
+    <div class="hymn-section" data-hymn-index="1">
       <h4>Opening Hymn</h4>
       <div class="hymn-input">
         <label>Language:</label>
@@ -106,7 +125,7 @@
       </div>
     </div>
 
-    <div class="hymn-section">
+    <div class="hymn-section" data-hymn-index="2">
       <h4>Middle Hymn</h4>
       <div class="hymn-input">
         <label>Language:</label>
@@ -122,7 +141,7 @@
       </div>
     </div>
 
-    <div class="hymn-section">
+    <div class="hymn-section" data-hymn-index="3">
       <h4>Offertory Hymn</h4>
       <div class="hymn-input">
         <label>Language:</label>
@@ -138,7 +157,7 @@
       </div>
     </div>
 
-    <div class="hymn-section">
+    <div class="hymn-section" data-hymn-index="4">
       <h4>Praise & Worship</h4>
       <div class="hymn-input">
         <label>Language:</label>
@@ -154,7 +173,7 @@
       </div>
     </div>
 
-    <div class="hymn-section">
+    <div class="hymn-section" data-hymn-index="5">
       <h4>Closing Hymn</h4>
       <div class="hymn-input">
         <label>Language:</label>
@@ -169,6 +188,9 @@
         <input type="text" name="hymn5_verses" placeholder="e.g., 1,2,4">
       </div>
     </div>
+    </div>
+
+    <button type="button" class="add-hymn-btn" onclick="addHymn()">+ Add More Hymn</button>
 
     <button type="submit">Generate PPT</button>
   </form>
@@ -184,5 +206,41 @@
     <li>Announcements: <code>{ANNOUNCEMENTS_TEXT}</code> and <code>{ANNOUNCEMENTS_TABLE}</code></li>
     <li><code>{BIRTHDAY_NAMES}</code>, <code>{ANNIVERSARY_NAMES}</code>, <code>{THANKYOU}</code></li>
   </ul>
+
+  <script>
+    let hymnCount = 5;
+
+    function addHymn() {
+      hymnCount++;
+      const container = document.getElementById('hymns-container');
+      
+      const hymnSection = document.createElement('div');
+      hymnSection.className = 'hymn-section';
+      hymnSection.setAttribute('data-hymn-index', hymnCount);
+      
+      hymnSection.innerHTML = `
+        <h4>Hymn ${hymnCount} <button type="button" class="remove-hymn-btn" onclick="removeHymn(this)">Remove</button></h4>
+        <div class="hymn-input">
+          <label>Language:</label>
+          <select name="hymn${hymnCount}_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            <option value="kannada">Kannada</option>
+            <option value="tulu">Tulu</option>
+            <option value="english">English</option>
+          </select>
+          <label>Hymn Number:</label>
+          <input type="text" name="hymn${hymnCount}_number" placeholder="e.g., 123">
+          <label>Verses:</label>
+          <input type="text" name="hymn${hymnCount}_verses" placeholder="e.g., 1,2,3 or leave empty for all">
+        </div>
+      `;
+      
+      container.appendChild(hymnSection);
+    }
+
+    function removeHymn(button) {
+      const hymnSection = button.closest('.hymn-section');
+      hymnSection.remove();
+    }
+  </script>
 </body>
 </html>

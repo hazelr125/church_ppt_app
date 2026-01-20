@@ -66,18 +66,6 @@ def build_mapping_wrapper(parsed: dict, hymn_db: "HymnDatabase"):
     populate_verse_blocks('old_testament', 'OT')  
     populate_verse_blocks('new_testament', 'NT')
     populate_verse_blocks('gospel', 'GOSPEL')
-
-    # Psalm — split into paired blocks
-    #ps_blocks_en = fetch_bible_passage(parsed.get('psalm',''), 'en') or []
-    # ensure same length
-    #max_pairs = len(ps_blocks_en)
-    #for idx in range(max_pairs):
-    #    mapping[f'{{PSALM_EN_V{idx+1}}}'] = ps_blocks_en[idx] if idx < len(ps_blocks_en) else ""
-
-    # Bible readings 
-    #mapping['{OT_EN}'] = parsed.get("old_testament_en", "")
-    #mapping['{NT_EN}'] = parsed.get("new_testament_en", "")
-    #mapping['{GOSPEL_EN}'] = parsed.get("gospel_en", "")
     
     # announcements
     mapping['{ANNOUNCEMENTS_TEXT}'] = parsed.get('announcements_block','(No announcements provided)')

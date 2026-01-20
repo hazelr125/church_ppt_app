@@ -214,8 +214,19 @@ def get_hymn_verses(hymn_number, verse_selection, language, hymn_db):
 def process_user_hymns(form_data, hymn_db):
     placeholders = {}
     
-    # Process up to 5 hymns
-    for i in range(1, 6):
+    # Find all hymn numbers in form data (dynamically detect how many hymns were submitted)
+    hymn_indices = set()
+    for key in form_data.keys():
+        if key.startswith('hymn') and key.endswith('_number'):
+            # Extract the hymn index from keys like "hymn1_number", "hymn6_number", etc.
+            try:
+                index = int(key.replace('hymn', '').replace('_number', ''))
+                hymn_indices.add(index)
+            except ValueError:
+                continue
+    
+    # Process all found hymns
+    for i in sorted(hymn_indices):
         hymn_number = form_data.get(f'hymn{i}_number', '').strip()
         verse_selection = form_data.get(f'hymn{i}_verses', '').strip()
         language = form_data.get(f'hymn{i}_language', 'kannada').strip().lower()
