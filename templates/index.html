@@ -1,246 +1,402 @@
-<!-- templates/index.html -->
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Church PPT Builder</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body { 
-      font-family: Arial, sans-serif; 
-      max-width: 800px; 
-      margin: 30px auto; 
-      padding: 20px;
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
     }
-    label { 
-      display: block; 
-      margin: 10px 0 4px; 
-      font-weight: bold;
+
+    * {
+      box-sizing: border-box;
     }
-    input[type="file"], input[type="text"] { 
-      width: 100%; 
-      padding: 8px; 
-      margin-bottom: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-    .hymn-section {
-      background-color: #f5f5f5;
-      padding: 15px;
-      margin: 15px 0;
-      border-radius: 5px;
-      border-left: 4px solid #007bff;
-    }
-    .hymn-input {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin: 8px 0;
-    }
-    .hymn-input input {
-      flex: 1;
-      margin-bottom: 0;
-    }
-    .hymn-input label {
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
       margin: 0;
-      min-width: 120px;
-      font-weight: normal;
+      padding: 40px 16px;
     }
-    button { 
-      background-color: #007bff;
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    header {
+      background: var(--primary);
       color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
+      padding: 32px;
+      border-radius: 18px;
+      margin-bottom: 30px;
+      
     }
-    button:hover {
-      background-color: #0056b3;
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
     }
+
+    header p {
+      margin: 0;
+      opacity: 0.95;
+      font-size: 15px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 26px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 18px;
+      font-size: 19px;
+      font-weight: 600;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    input[type="file"],
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      background: white;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
     .help-text {
       font-size: 12px;
-      color: #666;
-      margin-top: 2px;
+      color: var(--muted);
+      margin-top: 4px;
     }
-    .section-title {
-      margin-top: 25px;
-      margin-bottom: 10px;
-      color: #333;
+
+    /* Hymn sections */
+    .hymn-section {
+      background: #f9fafb;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
     }
-    .add-hymn-btn {
-      background-color: #28a745;
-      padding: 8px 16px;
+
+    .hymn-section h4 {
+      margin: 0 0 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .hymn-input {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .hymn-input label {
+      font-weight: 400;
+      font-size: 12px;
+    }
+
+    /* Buttons */
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 22px;
       font-size: 14px;
-      margin-top: 10px;
+      font-weight: 600;
+      cursor: pointer;
     }
-    .add-hymn-btn:hover {
-      background-color: #218838;
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
     }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-add {
+      background: var(--success);
+      color: white;
+      align-self: flex-start;
+    }
+
+    .btn-add:hover {
+      background: #15803d;
+    }
+
     .remove-hymn-btn {
-      background-color: #dc3545;
+      background: var(--danger);
+      color: white;
       padding: 6px 12px;
       font-size: 12px;
-      margin-left: 10px;
+      border-radius: 8px;
     }
-    .remove-hymn-btn:hover {
-      background-color: #c82333;
+
+    footer {
+      margin-top: 40px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    code {
+      background: #eef2ff;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 720px) {
+      .hymn-input {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
-  <h1>Church PPT Builder</h1>
-  <p>Upload weekly PDF (service sheet) and your Canva PPTX template (with placeholders).</p>
-  
+<div class="container">
+
+  <header>
+    <h1>Church PPT Builder</h1>
+    <p>Upload your service sheet and PPT template to generate a complete Sunday presentation.</p>
+  </header>
+
   <form method="post" enctype="multipart/form-data">
-    <h3 class="section-title">Files</h3>
-    <label>Weekly PDF: 
+
+    <!-- Files -->
+    <div class="card">
+      <h3>📂 Files</h3>
+
+      <label>Weekly PDF</label>
       <input type="file" name="pdf" accept="application/pdf" required>
-    </label>
-    
-    <label>Canva PPTX template: 
+
+      <label>PPTX Template</label>
       <input type="file" name="tpl" accept=".pptx" required>
-    </label>
-    
-    <label>Announcements DOCX (optional):
+
+      <label>Announcements DOCX</label>
       <input type="file" name="ann_doc" accept=".docx">
-    </label>
+    </div>
 
-    <h3 class="section-title">Hymn Numbers</h3>
-    <p class="help-text">Enter the hymn numbers as they appear in your hymn book (e.g., 140, 113, 156, etc.)</p>
-    
-    <div id="hymns-container">
-    <div class="hymn-section" data-hymn-index="1">
-      <h4>Opening Hymn</h4>
-      <div class="hymn-input">
-        <label>Language:</label>
-        <select name="hymn1_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-          <option value="kannada">Kannada</option>
-          <option value="tulu">Tulu</option>
-          <option value="english">English</option>
-        </select>
-        <label>Hymn Number:</label>
-        <input type="text" name="hymn1_number" placeholder="e.g., 140">
-        <label>Verses:</label>
-        <input type="text" name="hymn1_verses" placeholder="e.g., 1,3,5,7 or leave empty for all">
+    <!-- Hymns -->
+    <div class="card">
+      <h3>🎵 Hymns</h3>
+      <p class="help-text">Enter hymn numbers as per the hymn book.</p>
+
+      <div id="hymns-container">
+
+        <!-- Default 5 hymns -->
+        <!-- Repeatable block -->
+        <div class="hymn-section" data-hymn-index="1">
+          <h4>Opening Hymn</h4>
+          <div class="hymn-input">
+            <div>
+              <label>Language</label>
+              <select name="hymn1_language">
+                <option value="kannada">Kannada</option>
+                <option value="tulu">Tulu</option>
+                <option value="english">English</option>
+              </select>
+            </div>
+            <div>
+              <label>Hymn Number</label>
+              <input type="text" name="hymn1_number" placeholder="e.g., 140">
+            </div>
+            <div>
+              <label>Verses</label>
+              <input type="text" name="hymn1_verses" placeholder="1,3,5 or empty">
+            </div>
+          </div>
+        </div>
+
+        <div class="hymn-section" data-hymn-index="2">
+          <h4>Middle Hymn</h4>
+          <div class="hymn-input">
+            <div>
+              <label>Language</label>
+              <select name="hymn2_language">
+                <option value="kannada">Kannada</option>
+                <option value="tulu">Tulu</option>
+                <option value="english">English</option>
+              </select>
+            </div>
+            <div>
+              <label>Hymn Number</label>
+              <input type="text" name="hymn2_number" placeholder="e.g., 113">
+            </div>
+            <div>
+              <label>Verses</label>
+              <input type="text" name="hymn2_verses" placeholder="1,2">
+            </div>
+          </div>
+        </div>
+
+        <div class="hymn-section" data-hymn-index="3">
+          <h4>Offertory Hymn</h4>
+          <div class="hymn-input">
+            <div>
+              <label>Language</label>
+              <select name="hymn3_language">
+                <option value="kannada">Kannada</option>
+                <option value="tulu">Tulu</option>
+                <option value="english">English</option>
+              </select>
+            </div>
+            <div>
+              <label>Hymn Number</label>
+              <input type="text" name="hymn3_number" placeholder="e.g., 156">
+            </div>
+            <div>
+              <label>Verses</label>
+              <input type="text" name="hymn3_verses" placeholder="All or 1,2,3">
+            </div>
+          </div>
+        </div>
+
+        <div class="hymn-section" data-hymn-index="4">
+          <h4>Praise & Worship</h4>
+          <div class="hymn-input">
+            <div>
+              <label>Language</label>
+              <select name="hymn4_language">
+                <option value="kannada">Kannada</option>
+                <option value="tulu">Tulu</option>
+                <option value="english">English</option>
+              </select>
+            </div>
+            <div>
+              <label>Hymn Number</label>
+              <input type="text" name="hymn4_number" placeholder="e.g., 50">
+            </div>
+            <div>
+              <label>Verses</label>
+              <input type="text" name="hymn4_verses" placeholder="1,2">
+            </div>
+          </div>
+        </div>
+
+        <div class="hymn-section" data-hymn-index="5">
+          <h4>Closing Hymn</h4>
+          <div class="hymn-input">
+            <div>
+              <label>Language</label>
+              <select name="hymn5_language">
+                <option value="kannada">Kannada</option>
+                <option value="tulu">Tulu</option>
+                <option value="english">English</option>
+              </select>
+            </div>
+            <div>
+              <label>Hymn Number</label>
+              <input type="text" name="hymn5_number" placeholder="e.g., 247">
+            </div>
+            <div>
+              <label>Verses</label>
+              <input type="text" name="hymn5_verses" placeholder="1,2,4">
+            </div>
+          </div>
+        </div>
+
       </div>
+
+      <button type="button" class="btn-add" onclick="addHymn()">+ Add More Hymn</button>
     </div>
 
-    <div class="hymn-section" data-hymn-index="2">
-      <h4>Middle Hymn</h4>
-      <div class="hymn-input">
-        <label>Language:</label>
-        <select name="hymn2_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-          <option value="kannada">Kannada</option>
-          <option value="tulu">Tulu</option>
-          <option value="english">English</option>
-        </select>
-        <label>Hymn Number:</label>
-        <input type="text" name="hymn2_number" placeholder="e.g., 113">
-        <label>Verses:</label>
-        <input type="text" name="hymn2_verses" placeholder="e.g., 1,2 or leave empty for all">
-      </div>
-    </div>
+    <button type="submit" class="btn-primary">Generate PPT</button>
 
-    <div class="hymn-section" data-hymn-index="3">
-      <h4>Offertory Hymn</h4>
-      <div class="hymn-input">
-        <label>Language:</label>
-        <select name="hymn3_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-          <option value="kannada">Kannada</option>
-          <option value="tulu">Tulu</option>
-          <option value="english">English</option>
-        </select>
-        <label>Hymn Number:</label>
-        <input type="text" name="hymn3_number" placeholder="e.g., 156">
-        <label>Verses:</label>
-        <input type="text" name="hymn3_verses" placeholder="e.g., all verses or 1,2,3">
-      </div>
-    </div>
-
-    <div class="hymn-section" data-hymn-index="4">
-      <h4>Praise & Worship</h4>
-      <div class="hymn-input">
-        <label>Language:</label>
-        <select name="hymn4_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-          <option value="kannada">Kannada</option>
-          <option value="tulu">Tulu</option>
-          <option value="english">English</option>
-        </select>
-        <label>Hymn Number:</label>
-        <input type="text" name="hymn4_number" placeholder="e.g., 50">
-        <label>Verses:</label>
-        <input type="text" name="hymn4_verses" placeholder="e.g., 1,2">
-      </div>
-    </div>
-
-    <div class="hymn-section" data-hymn-index="5">
-      <h4>Closing Hymn</h4>
-      <div class="hymn-input">
-        <label>Language:</label>
-        <select name="hymn5_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-          <option value="kannada">Kannada</option>
-          <option value="tulu">Tulu</option>
-          <option value="english">English</option>
-        </select>
-        <label>Hymn Number:</label>
-        <input type="text" name="hymn5_number" placeholder="e.g., 247">
-        <label>Verses:</label>
-        <input type="text" name="hymn5_verses" placeholder="e.g., 1,2,4">
-      </div>
-    </div>
-    </div>
-
-    <button type="button" class="add-hymn-btn" onclick="addHymn()">+ Add More Hymn</button>
-
-    <button type="submit">Generate PPT</button>
   </form>
 
-  <hr>
-  <h3>Placeholders recommended in your template</h3>
-  <ul>
-    <li><code>{WELCOME}</code></li>
-    <li>Hymns: <code>{HYMN1_KN_V1}</code>, <code>{HYMN1_EN_V1}</code>, <code>{HYMN1_KN_V2}</code> ... (repeat for HYMN2, HYMN3, HYMN4, HYMN5)</li>
-    <li>For Tulu hymns: <code>{HYMN1_TU_V1}</code>, <code>{HYMN1_TU_V2}</code> ... (Tulu text + English translation)</li>
-    <li>Psalm pairs: <code>{PSALM_EN_V1}</code>, <code>{PSALM_KN_V1}</code>, <code>{PSALM_EN_V2}</code> ...</li>
-    <li>Readings: <code>{OT_EN}</code>, <code>{NT_EN}</code>, <code>{GOSPEL_EN}</code></li>
-    <li>Announcements: <code>{ANNOUNCEMENTS_TEXT}</code> and <code>{ANNOUNCEMENTS_TABLE}</code></li>
-    <li><code>{BIRTHDAY_NAMES}</code>, <code>{ANNIVERSARY_NAMES}</code>, <code>{THANKYOU}</code></li>
-  </ul>
+  <footer>
+    <h4>📌 Template Placeholders</h4>
+    <ul>
+      <li><code>{WELCOME}</code></li>
+      <li><code>{HYMN1_KN_V1}</code>, <code>{HYMN1_EN_V1}</code>, etc.</li>
+      <li><code>{PSALM_EN_V1}</code>, <code>{PSALM_KN_V1}</code></li>
+      <li><code>{OT_EN_V1}</code>, <code>{OT_KN_V1}</code></li>
+      <li><code>{NT_EN_V1}</code>, <code>{NT_KN_V1}</code></li>
+      <li><code>{ANNOUNCEMENTS_TEXT}</code>, <code>{ANNOUNCEMENTS_TABLE}</code></li>
+    </ul>
+  </footer>
 
-  <script>
-    let hymnCount = 5;
+</div>
 
-    function addHymn() {
-      hymnCount++;
-      const container = document.getElementById('hymns-container');
-      
-      const hymnSection = document.createElement('div');
-      hymnSection.className = 'hymn-section';
-      hymnSection.setAttribute('data-hymn-index', hymnCount);
-      
-      hymnSection.innerHTML = `
-        <h4>Hymn ${hymnCount} <button type="button" class="remove-hymn-btn" onclick="removeHymn(this)">Remove</button></h4>
-        <div class="hymn-input">
-          <label>Language:</label>
-          <select name="hymn${hymnCount}_language" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+<script>
+  let hymnCount = 5;
+
+  function addHymn() {
+    hymnCount++;
+    const container = document.getElementById('hymns-container');
+
+    const div = document.createElement('div');
+    div.className = 'hymn-section';
+    div.innerHTML = `
+      <h4>Hymn ${hymnCount}
+        <button type="button" class="remove-hymn-btn" onclick="this.closest('.hymn-section').remove()">Remove</button>
+      </h4>
+      <div class="hymn-input">
+        <div>
+          <label>Language</label>
+          <select name="hymn${hymnCount}_language">
             <option value="kannada">Kannada</option>
             <option value="tulu">Tulu</option>
             <option value="english">English</option>
           </select>
-          <label>Hymn Number:</label>
-          <input type="text" name="hymn${hymnCount}_number" placeholder="e.g., 123">
-          <label>Verses:</label>
-          <input type="text" name="hymn${hymnCount}_verses" placeholder="e.g., 1,2,3 or leave empty for all">
         </div>
-      `;
-      
-      container.appendChild(hymnSection);
-    }
+        <div>
+          <label>Hymn Number</label>
+          <input type="text" name="hymn${hymnCount}_number">
+        </div>
+        <div>
+          <label>Verses</label>
+          <input type="text" name="hymn${hymnCount}_verses">
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+  }
+</script>
 
-    function removeHymn(button) {
-      const hymnSection = button.closest('.hymn-section');
-      hymnSection.remove();
-    }
-  </script>
 </body>
 </html>
